@@ -1,0 +1,66 @@
+# Hermes Agent Profiles
+# Each profile defines a separate agent instance with its own skills, memory, and personality.
+
+profiles:
+  - name: antonio
+    role: Code Review & DevOps
+    description: Reviews PRs, manages K8s clusters, handles infrastructure tasks
+    model: deepseek-v4-pro
+    schedule: 24/7
+    deployment: kubernetes
+    namespace: hermes-antonio
+    
+  - name: edith
+    role: Web Development & Design
+    description: Frontend/backend development, UI design, content creation
+    model: deepseek-v4-pro
+    schedule: 24/7
+    deployment: kubernetes
+    namespace: hermes-edith
+    
+  - name: prueba
+    role: Testing & Experimentation
+    description: Safe environment for testing new tools, skills, and configurations
+    model: deepseek-v4-pro
+    schedule: 24/7
+    deployment: kubernetes
+    namespace: hermes-prueba
+
+  - name: default
+    role: Primary Assistant
+    description: Main workstation agent for development, administration, and daily tasks
+    model: deepseek-v4-pro
+    schedule: on-demand
+    deployment: bare-metal
+
+infrastructure:
+  gpu_server:
+    type: NVIDIA DGX Spark
+    model: Gemma 4 27B
+    quantization: NVFP4
+    api: OpenAI-compatible via LiteLLM Gateway
+    use_cases:
+      - LLM inference
+      - Vision (multi-modal)
+      - Embeddings generation
+  
+  embeddings_server:
+    type: x86 Compute Node
+    model: Qwen3-Embedding-0.6B INT4
+    api: OpenAI-compatible REST
+    dimensions: 1024
+    use_cases:
+      - RAG pipelines
+      - Semantic search
+      - Vector storage
+
+  speech_server:
+    type: x86 Compute Node
+    stt_model: Parakeet TDT 0.6B v3
+    tts_model: Supertonic-3
+    languages: 25+ auto-detected
+    voices: 10
+    use_cases:
+      - Voice interaction
+      - Transcription
+      - Multilingual TTS
